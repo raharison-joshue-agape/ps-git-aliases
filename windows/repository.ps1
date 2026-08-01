@@ -29,7 +29,8 @@ function gInit {
 
     if (-not (Test-Git)) { return }
 
-    if (-not (Invoke-Git -Arguments @("init"))) {
+    Invoke-Git -Arguments @("init")
+    if ($LASTEXITCODE -ne 0) {
         Show-GitError "Failed to initialize Git repository"
         return
     }
@@ -39,12 +40,14 @@ function gInit {
         return
     }
 
-    if (-not (Invoke-Git -Arguments @("add", "."))) {
+    Invoke-Git -Arguments @("add", ".")
+    if ($LASTEXITCODE -ne 0) {
         Show-GitError "Failed to stage files (git add)"
         return
     }
 
-    if (-not (Invoke-Git -Arguments @("commit", "-m", $message))) {
+    Invoke-Git -Arguments @("commit", "-m", $message)
+    if ($LASTEXITCODE -ne 0) {
         Show-GitError "Failed to create commit"
         return
     }
@@ -113,7 +116,8 @@ function gClone {
     $gitArgs += $url
     if ($folder) { $gitArgs += $folder }
 
-    if (Invoke-Git -Arguments $gitArgs) {
+    Invoke-Git -Arguments $gitArgs
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "Repository cloned successfully"
     } else {
         Show-GitError "Failed to clone repository"
@@ -130,6 +134,42 @@ function gClone {
 function gStatus {
     if (-not (Test-Git)) { return }
     Invoke-Git -Arguments @("status")
+}
+
+<#
+.SYNOPSIS
+    Creates an archive (zip, tar, ...) of a commit or branch.
+
+.DESCRIPTION
+    The archive format is guessed from the output file extension.
+    The tree of the given reference is archived, not the working directory.
+
+.PARAMETER output
+    Output archive file, e.g. snapshot.zip or snapshot.tar.gz.
+
+.PARAMETER ref
+    Commit or branch to archive (default: HEAD).
+
+.EXAMPLE
+    gArchive snapshot.zip
+    gArchive release.tar.gz v1.0.0
+#>
+function gArchive {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$output,
+
+        [string]$ref = "HEAD"
+    )
+
+    if (-not (Test-Git)) { return }
+
+    Invoke-Git -Arguments @("archive", "-o", $output, $ref)
+    if ($LASTEXITCODE -eq 0) {
+        Show-GitSuccess "Archive created: $output"
+    } else {
+        Show-GitError "Failed to create archive"
+    }
 }
 
 <#
@@ -167,7 +207,8 @@ function gClean {
     # Default to a safe preview so `gClean` alone never deletes anything.
     if (-not $force -and -not $dry) { $gitArgs += "-n" }
 
-    if (Invoke-Git -Arguments $gitArgs) {
+    Invoke-Git -Arguments $gitArgs
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "Executed: git $($gitArgs -join ' ')"
     } else {
         Show-GitError "Failed to execute git clean"

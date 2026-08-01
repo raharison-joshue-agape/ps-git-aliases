@@ -11,13 +11,16 @@
 #      helpers.ps1    Test-Git / Show-GitError / Show-GitSuccess / Invoke-Git
 #      docs.ps1       gDocs
 #      config.ps1     gHelp, gConfig
-#      repository.ps1 gInit, gClone, gStatus, gClean
-#      staging.ps1    gAdd, gRemove, gMove, gCommit
-#      branch.ps1     gBranch, gCheck, gSwitch, gMerge, gRebase
+#      repository.ps1 gInit, gClone, gStatus, gClean, gArchive
+#      staging.ps1    gAdd, gRemove, gMove, gCommit, gUntrack
+#      branch.ps1     gBranch, gCheck, gSwitch, gMerge, gRebase, gWorktree,
+#                     gMergeAbort, gMergeContinue, gRebaseAbort, gRebaseContinue
 #      remote.ps1     gRemote, gPush, gPull, gFetch
 #      history.ps1    gLog, gShow, gRestore, gReset, gRevert,
 #                     gCherryPick, gReflog, gStash
+#      inspect.ps1    gDiff, gBlame, gGrep, gShortLog, gDescribe
 #      tags.ps1       gTag, gPushTag
+#      submodule.ps1  gSubmodule
 #      bisect.ps1     gBisect
 # =============================================================================
 
@@ -34,7 +37,9 @@ $modules = @(
     "branch.ps1"
     "remote.ps1"
     "history.ps1"
+    "inspect.ps1"
     "tags.ps1"
+    "submodule.ps1"
     "bisect.ps1"
 )
 

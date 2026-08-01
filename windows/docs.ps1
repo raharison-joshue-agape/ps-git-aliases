@@ -28,12 +28,14 @@ function gDocs {
             @{ Command = "gClone <url> [folder]"; Description = "Clone a repository from a URL" }
             @{ Command = "gClone <branch> <url> [folder]"; Description = "Clone a specific branch into a folder" }
             @{ Command = "gStatus"; Description = "Show the current repository status" }
+            @{ Command = "gArchive <output> [ref]"; Description = "Create a zip/tar archive of a commit or branch" }
             @{ Command = "gClean [-force] [-dry]"; Description = "Remove untracked files (preview by default, -force deletes)" }
         )
         "Working Tree & Commits" = @(
             @{ Command = "gAdd [file]"; Description = "Stage a file or all files" }
             @{ Command = "gRemove <file>"; Description = "Remove a tracked file from the repository" }
             @{ Command = "gMove <old> <new>"; Description = "Rename or move a tracked file" }
+            @{ Command = "gUntrack <file>"; Description = "Stop tracking a file without deleting it" }
             @{ Command = "gCommit [-a|-u|--amend] <message>"; Description = "Create or modify a commit" }
         )
         "Branches" = @(
@@ -44,7 +46,12 @@ function gDocs {
             @{ Command = "gCheck -b <branch>"; Description = "Create and switch to a new branch" }
             @{ Command = "gSwitch <branch>"; Description = "Switch branches using git switch" }
             @{ Command = "gMerge <branch>"; Description = "Merge a branch into the current branch" }
+            @{ Command = "gMergeAbort"; Description = "Abort an in-progress merge" }
+            @{ Command = "gMergeContinue"; Description = "Continue a merge after resolving conflicts" }
             @{ Command = "gRebase <branch>"; Description = "Reapply commits onto a new base branch" }
+            @{ Command = "gRebaseAbort"; Description = "Abort an in-progress rebase" }
+            @{ Command = "gRebaseContinue"; Description = "Continue a rebase after resolving conflicts" }
+            @{ Command = "gWorktree [add|list|remove]"; Description = "Manage multiple working directories" }
         )
         "Remotes" = @(
             @{ Command = "gRemote"; Description = "List configured remotes" }
@@ -67,6 +74,17 @@ function gDocs {
             @{ Command = "gReflog"; Description = "Show HEAD history (reflog)" }
             @{ Command = "gStash"; Description = "Temporarily save working directory changes" }
             @{ Command = "gStash list|pop|apply|drop|clear [index]"; Description = "Manage stash entries" }
+        )
+        "Inspect" = @(
+            @{ Command = "gDiff [-cached] [-stat] [file]"; Description = "Show working tree or staged changes" }
+            @{ Command = "gBlame <file> [-line n]"; Description = "Show the author of each line of a file" }
+            @{ Command = "gGrep <pattern> [-i]"; Description = "Search inside tracked files" }
+            @{ Command = "gShortLog [-summary] [-email] [-all]"; Description = "Summarize commits grouped by author" }
+            @{ Command = "gDescribe [ref]"; Description = "Show the closest reachable tag from a commit" }
+        )
+        "Submodules" = @(
+            @{ Command = "gSubmodule add <url> [path]"; Description = "Register a new submodule" }
+            @{ Command = "gSubmodule init|update|sync|status"; Description = "Manage registered submodules" }
         )
         "Tags" = @(
             @{ Command = "gTag"; Description = "List all tags" }

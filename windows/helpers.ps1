@@ -60,18 +60,20 @@ function Show-GitSuccess {
 
 <#
 .SYNOPSIS
-    Runs a git command and reports whether it succeeded.
+    Runs a git command with the given arguments.
 
 .DESCRIPTION
-    Native executables never throw in PowerShell, so try/catch alone is
-    unreliable. This helper runs `git` with the given arguments and returns
-    $true only when the exit code is 0.
+    Thin wrapper around the git executable. Git output flows normally to
+    the pipeline, so it can still be piped. Check $LASTEXITCODE right after
+    the call to know whether the command succeeded (native executables
+    never throw in PowerShell, so try/catch alone is unreliable).
 
 .PARAMETER Arguments
     Arguments passed to git, e.g. @("status") or @("add", ".").
 
 .EXAMPLE
-    if (-not (Invoke-Git -Arguments @("status"))) { return }
+    Invoke-Git -Arguments @("status")
+    if ($LASTEXITCODE -eq 0) { Show-GitSuccess "OK" }
 #>
 function Invoke-Git {
     param(
@@ -79,5 +81,4 @@ function Invoke-Git {
         [string[]]$Arguments
     )
     & git @Arguments
-    return $LASTEXITCODE -eq 0
 }

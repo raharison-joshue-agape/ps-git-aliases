@@ -24,7 +24,8 @@ function gAdd {
 
     $target = if ($file) { $file } else { "." }
 
-    if (Invoke-Git -Arguments @("add", $target)) {
+    Invoke-Git -Arguments @("add", $target)
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "Successfully added: $target"
     } else {
         Show-GitError "Failed to add files: $target"
@@ -54,10 +55,44 @@ function gRemove {
         return
     }
 
-    if (Invoke-Git -Arguments @("rm", $file)) {
+    Invoke-Git -Arguments @("rm", $file)
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "File removed: $file"
     } else {
         Show-GitError "Failed to remove file: $file"
+    }
+}
+
+<#
+.SYNOPSIS
+    Stops tracking a file without deleting it from disk.
+
+.DESCRIPTION
+    Runs `git rm --cached`, so the file stays in your working directory but
+    is removed from the repository (useful for files that must no longer be
+    committed, e.g. config or build artifacts).
+
+.PARAMETER file
+    File to stop tracking.
+
+.EXAMPLE
+    gUntrack config.local.json
+#>
+function gUntrack {
+    param([string]$file)
+
+    if (-not (Test-Git)) { return }
+
+    if (-not $file) {
+        Show-GitError "Usage: gUntrack <file>"
+        return
+    }
+
+    Invoke-Git -Arguments @("rm", "--cached", $file)
+    if ($LASTEXITCODE -eq 0) {
+        Show-GitSuccess "File untracked (kept on disk): $file"
+    } else {
+        Show-GitError "Failed to untrack file: $file"
     }
 }
 
@@ -87,7 +122,8 @@ function gMove {
         return
     }
 
-    if (Invoke-Git -Arguments @("mv", $old, $new)) {
+    Invoke-Git -Arguments @("mv", $old, $new)
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "File moved: $old -> $new"
     } else {
         Show-GitError "Failed to move file: $old -> $new"
@@ -133,7 +169,8 @@ function gCommit {
         default   { $gitArgs = @("commit", "-m", $message) }
     }
 
-    if (Invoke-Git -Arguments $gitArgs) {
+    Invoke-Git -Arguments $gitArgs
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "Commit created: $message"
     } else {
         Show-GitError "Failed to create commit"

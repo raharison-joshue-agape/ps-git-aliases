@@ -59,7 +59,8 @@ function gBisect {
         }
     }
 
-    if (Invoke-Git -Arguments $gitArgs) {
+    Invoke-Git -Arguments $gitArgs
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess $successMessage
     } else {
         Show-GitError "Bisect operation failed: $action"

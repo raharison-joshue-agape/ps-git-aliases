@@ -112,7 +112,8 @@ function gConfig {
     }
 
     # Field with value -> set the new value
-    if (Invoke-Git -Arguments @("config", "--$level", $key, $value)) {
+    Invoke-Git -Arguments @("config", "--$level", $key, $value)
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "($level) $key = $value"
     } else {
         Show-GitError "Failed to set ($level) $key"

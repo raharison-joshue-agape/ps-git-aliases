@@ -84,13 +84,15 @@ function gRestore {
     if (-not (Test-Git)) { return }
 
     if ($staged) {
-        if (Invoke-Git -Arguments @("restore", "--staged", $file)) {
+        Invoke-Git -Arguments @("restore", "--staged", $file)
+        if ($LASTEXITCODE -eq 0) {
             Show-GitSuccess "File unstaged: $file"
         } else {
             Show-GitError "Failed to unstage file: $file"
         }
     } else {
-        if (Invoke-Git -Arguments @("restore", $file)) {
+        Invoke-Git -Arguments @("restore", $file)
+        if ($LASTEXITCODE -eq 0) {
             Show-GitSuccess "File restored: $file"
         } else {
             Show-GitError "Failed to restore file: $file"
@@ -142,19 +144,23 @@ function gReset {
     }
 
     if ($h) {
-        $ok  = Invoke-Git -Arguments @("reset", "--hard", $arg1)
+        Invoke-Git -Arguments @("reset", "--hard", $arg1)
+        $ok = ($LASTEXITCODE -eq 0)
         $msg = "Hard reset to: $arg1"
     }
     elseif ($s) {
-        $ok  = Invoke-Git -Arguments @("reset", "--soft", $arg1)
+        Invoke-Git -Arguments @("reset", "--soft", $arg1)
+        $ok = ($LASTEXITCODE -eq 0)
         $msg = "Soft reset to: $arg1"
     }
     elseif ($arg1 -and $arg2) {
-        $ok  = Invoke-Git -Arguments @("reset", $arg1, "--", $arg2)
+        Invoke-Git -Arguments @("reset", $arg1, "--", $arg2)
+        $ok = ($LASTEXITCODE -eq 0)
         $msg = "File reset: $arg2 -> $arg1"
     }
     elseif ($arg1) {
-        $ok  = Invoke-Git -Arguments @("reset", "HEAD", "--", $arg1)
+        Invoke-Git -Arguments @("reset", "HEAD", "--", $arg1)
+        $ok = ($LASTEXITCODE -eq 0)
         $msg = "Unstaged: $arg1"
     }
     else {
@@ -183,7 +189,8 @@ function gRevert {
 
     if (-not (Test-Git)) { return }
 
-    if (Invoke-Git -Arguments @("revert", $commit)) {
+    Invoke-Git -Arguments @("revert", $commit)
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "Commit reverted: $commit"
     } else {
         Show-GitError "Failed to revert commit: $commit"
@@ -208,7 +215,8 @@ function gCherryPick {
 
     if (-not (Test-Git)) { return }
 
-    if (Invoke-Git -Arguments @("cherry-pick", $commit)) {
+    Invoke-Git -Arguments @("cherry-pick", $commit)
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "Cherry-picked commit: $commit"
     } else {
         Show-GitError "Failed to cherry-pick commit: $commit"
@@ -277,7 +285,8 @@ function gStash {
         default { $gitArgs = @("stash"); $successMessage = "Changes stashed" }
     }
 
-    if (Invoke-Git -Arguments $gitArgs) {
+    Invoke-Git -Arguments $gitArgs
+    if ($LASTEXITCODE -eq 0) {
         if ($successMessage) { Show-GitSuccess $successMessage }
     } else {
         Show-GitError "Stash operation failed: $type"

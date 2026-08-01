@@ -33,7 +33,8 @@ function gRemote {
         return
     }
 
-    if (Invoke-Git -Arguments @("remote", "add", $remote_name, $url)) {
+    Invoke-Git -Arguments @("remote", "add", $remote_name, $url)
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "Remote added: $remote_name -> $url"
     } else {
         Show-GitError "Failed to manage remote: $remote_name"
@@ -73,7 +74,8 @@ function gPush {
         }
     }
 
-    if (Invoke-Git -Arguments @("push", $remote_name, $branch_name)) {
+    Invoke-Git -Arguments @("push", $remote_name, $branch_name)
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "Pushed: $remote_name/$branch_name"
     } else {
         Show-GitError "Failed to push: $remote_name/$branch_name"
@@ -113,7 +115,8 @@ function gPull {
         }
     }
 
-    if (Invoke-Git -Arguments @("pull", $remote_name, $branch_name)) {
+    Invoke-Git -Arguments @("pull", $remote_name, $branch_name)
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "Pulled: $remote_name/$branch_name"
     } else {
         Show-GitError "Failed to pull: $remote_name/$branch_name"
@@ -138,7 +141,8 @@ function gFetch {
 
     if (-not (Test-Git)) { return }
 
-    if (Invoke-Git -Arguments @("fetch", $remote_name)) {
+    Invoke-Git -Arguments @("fetch", $remote_name)
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess "Fetched from: $remote_name"
     } else {
         Show-GitError "Failed to fetch from: $remote_name"

@@ -88,7 +88,8 @@ function gTag {
         }
     }
 
-    if (Invoke-Git -Arguments $gitArgs) {
+    Invoke-Git -Arguments $gitArgs
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess $successMessage
     } else {
         Show-GitError "Tag operation failed: $type"
@@ -129,7 +130,8 @@ function gPushTag {
         $successMessage = "Tag pushed: $tag_name -> $remote_name"
     }
 
-    if (Invoke-Git -Arguments $gitArgs) {
+    Invoke-Git -Arguments $gitArgs
+    if ($LASTEXITCODE -eq 0) {
         Show-GitSuccess $successMessage
     } else {
         Show-GitError "Failed to push tag"
