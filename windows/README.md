@@ -1,32 +1,45 @@
-# Git Command Aliases - Windows
+# Git Command Aliases — Windows
 
-A collection of Git shortcuts (`g*`) for PowerShell on Windows.
+A curated collection of `g*` shortcuts that wrap everyday Git operations for PowerShell on Windows.
+
+## Overview
+
+Instead of typing long, repetitive Git commands, you use short, memorable aliases that map one-to-one to Git subcommands:
+
+```powershell
+gStatus          # git status
+gAdd -a          # git add -A
+gCommit "msg"    # git commit -m "msg"
+gPush            # git push
+```
+
+The aliases are organized into themed modules that load automatically from a single entry point, so only one line needs to be added to your PowerShell profile. Every function ships with comment-based help discoverable through `Get-Help`.
 
 ## Prerequisites
 
-- Windows 10 or 11
-- PowerShell 5.1 or later (Windows PowerShell or PowerShell 7)
-- [Git for Windows](https://git-scm.com/download/win) installed and added to PATH
+| Requirement | Details |
+| --- | --- |
+| Operating system | Windows 10 or 11 |
+| Shell | Windows PowerShell 5.1+ or PowerShell 7 |
+| Git | [Git for Windows](https://git-scm.com/download/win) installed and available in `PATH` |
 
 ## Installation
 
-### 1. Copy the files
-
-Place the `windows` folder in your configuration directory:
+### 1. Copy the module to your config directory
 
 ```powershell
 New-Item -ItemType Directory -Path "$HOME\.config\alias" -Force
 Copy-Item -Path "windows" -Destination "$HOME\.config\alias\git-commandes\" -Recurse
 ```
 
-### 2. Check your PowerShell profile
+### 2. Check whether a PowerShell profile exists
 
 ```powershell
 Test-Path $PROFILE
 ```
 
-- `True` → your profile exists, go to step 4.
-- `False` → create it:
+- `True` → your profile already exists; continue to step 4.
+- `False` → create it first:
 
 ```powershell
 New-Item -Path $PROFILE -ItemType File -Force
@@ -38,7 +51,7 @@ New-Item -Path $PROFILE -ItemType File -Force
 notepad $PROFILE
 ```
 
-or with VS Code:
+or with Visual Studio Code:
 
 ```powershell
 code $PROFILE
@@ -46,13 +59,23 @@ code $PROFILE
 
 ### 4. Import the aliases
 
-Add this line to your profile:
+Append the following line to your profile:
 
 ```powershell
 . "$HOME\.config\alias\git-commandes\windows\index.ps1"
 ```
 
-`index.ps1` automatically loads all modules. Each module groups functions by theme:
+`index.ps1` is the entry point. It dot-sources every module located in its own directory, so the shortcuts work no matter where the project has been copied to.
+
+### 5. Reload your profile
+
+```powershell
+. $PROFILE
+```
+
+## Module reference
+
+Each module groups functions by topic:
 
 | File | Functions |
 | --- | --- |
@@ -69,37 +92,36 @@ Add this line to your profile:
 | `submodule.ps1` | `gSubmodule` |
 | `bisect.ps1` | `gBisect` |
 
-### 5. Reload your profile
-
-```powershell
-. $PROFILE
-```
-
 ## Usage
 
-The shortcuts are used directly in the terminal:
+Aliases behave like ordinary PowerShell commands and accept the same arguments as the underlying Git commands:
 
 ```powershell
-gStatus        # repository status
-gAdd -a        # stage all files
-gCommit "msg"  # create a commit
-gPush          # push the current branch
-gDiff -cached  # diff of staged changes
+gStatus             # repository status
+gAdd -a             # stage all changes
+gCommit "msg"       # commit staged changes
+gPush               # push the current branch
+gDiff -cached       # review staged changes
+gLog -graph         # commit history as a graph
 ```
 
 ## Built-in help
 
-```powershell
-gDocs                 # in-terminal cheat sheet
-Get-Help gCommit      # documentation of a function
-```
+| Command | Description |
+| --- | --- |
+| `gDocs` | Print an in-terminal cheat sheet of every available alias |
+| `gHelp [cmd]` | Open the Git manual for a specific command |
+| `Get-Help <function>` | Show comment-based documentation for any alias, including parameters and examples |
 
-Every function has comment-based help (`Get-Help`) describing its parameters and providing examples.
+```powershell
+gDocs
+Get-Help gCommit
+```
 
 ## Uninstall
 
-- Remove the import line from your profile: `$PROFILE`
-- Delete the directory:
+1. Remove the import line from `$PROFILE`.
+2. Delete the directory:
 
 ```powershell
 Remove-Item -Path "$HOME\.config\alias\git-commandes" -Recurse -Force
@@ -107,6 +129,12 @@ Remove-Item -Path "$HOME\.config\alias\git-commandes" -Recurse -Force
 
 ## Troubleshooting
 
-- Aliases don't work → check the path in the import line and reload your profile.
-- `❌ Git is not installed` → install Git for Windows and restart PowerShell.
-- Profile not found → check that `$PROFILE` exists (`Test-Path $PROFILE`).
+| Symptom | Fix |
+| --- | --- |
+| Aliases are unavailable | Verify the import path in `$PROFILE`, then reload with `. $PROFILE`. |
+| `❌ Git is not installed` | Install [Git for Windows](https://git-scm.com/download/win) and restart PowerShell. |
+| Profile not found | Confirm `$PROFILE` exists with `Test-Path $PROFILE`, creating it if necessary. |
+
+## Contributing
+
+See the [repository README](../README.md) for the full project overview, feature set, and contribution guidelines.
