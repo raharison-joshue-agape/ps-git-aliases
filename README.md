@@ -67,8 +67,24 @@ mkdir -p "$HOME\.config\alias\"
 Add the following line to your PowerShell profile  
 
 ```bash
-. "$HOME\.config\alias\git-commandes\index.ps1"
+. "$HOME\.config\alias\git-commandes\windows\index.ps1"
 ```
+
+The entry point `windows/index.ps1` dot-sources every module automatically.
+Each module groups the functions by theme:
+
+| File | Functions |
+| --- | --- |
+| `windows/helpers.ps1` | `Test-Git`, `Show-GitError`, `Show-GitSuccess`, `Invoke-Git` |
+| `windows/docs.ps1` | `gDocs` |
+| `windows/config.ps1` | `gHelp`, `gConfig` |
+| `windows/repository.ps1` | `gInit`, `gClone`, `gStatus`, `gClean` |
+| `windows/staging.ps1` | `gAdd`, `gRemove`, `gMove`, `gCommit` |
+| `windows/branch.ps1` | `gBranch`, `gCheck`, `gSwitch`, `gMerge`, `gRebase` |
+| `windows/remote.ps1` | `gRemote`, `gPush`, `gPull`, `gFetch` |
+| `windows/history.ps1` | `gLog`, `gShow`, `gRestore`, `gReset`, `gRevert`, `gCherryPick`, `gReflog`, `gStash` |
+| `windows/tags.ps1` | `gTag`, `gPushTag` |
+| `windows/bisect.ps1` | `gBisect` |
 
 ### Apply changes  
 
@@ -86,4 +102,6 @@ You can start using them directly in your terminal to speed up your workflow.
 💡 Tips  
 Restart PowerShell if needed  
 Double-check paths if aliases don’t work  
-Customize your aliases in index.ps1  
+Customize the aliases in their themed module (see the table above)  
+Type `gDocs` in a terminal to display the in-terminal cheat sheet  
+Type `Get-Help gCommit` (or any `g*` command) to view the function documentation
