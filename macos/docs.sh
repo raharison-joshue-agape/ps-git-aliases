@@ -1,6 +1,6 @@
 # =============================================================================
 #  Docs - In-terminal cheat sheet listing every Git alias command.
-#  Equivalent of windows/docs.ps1 for bash.
+#  Written for Zsh (default shell on macOS) and Bash-compatible.
 # =============================================================================
 
 # -----------------------------------------------------------------------------
@@ -15,11 +15,13 @@ gDocs() {
     local width=$((col_command_width + col_desc_width))
 
     # Build the separator lines ("=" and "-") to the full table width.
+    # Command substitution is used instead of printf -v so the code stays
+    # compatible with Zsh.
     local separator
     local line
-    printf -v separator '%*s' "$width" ''
+    separator="$(printf '%*s' "$width" '')"
     separator="${separator// /=}"
-    printf -v line '%*s' "$width" ''
+    line="$(printf '%*s' "$width" '')"
     line="${line// /-}"
 
     printf "\n"

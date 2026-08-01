@@ -2,7 +2,7 @@
 
 # 🚀 Git Command Aliases
 
-### Raccourcis Git pour **Bash (Linux)** et **PowerShell (Windows)**
+### Raccourcis Git pour **Bash (Linux)**, **Zsh (macOS)** et **PowerShell (Windows)**
 
 Suite d'aliases `g*` qui simplifient et accélèrent vos workflows Git directement en ligne de commande.
 
@@ -12,8 +12,10 @@ Suite d'aliases `g*` qui simplifient et accélèrent vos workflows Git directeme
 [![GitHub forks](https://img.shields.io/github/forks/raharison-joshue-agape/ps-git-aliases?style=for-the-badge&logo=github&logoColor=white&color=blue)](https://github.com/raharison-joshue-agape/ps-git-aliases/forks)
 [![GitHub issues](https://img.shields.io/github/issues/raharison-joshue-agape/ps-git-aliases?style=for-the-badge&logo=github&logoColor=white&color=red)](https://github.com/raharison-joshue-agape/ps-git-aliases/issues)
 [![Bash](https://img.shields.io/badge/Bash-4.0%2B-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white)](https://www.gnu.org/software/bash/)
+[![Zsh](https://img.shields.io/badge/Zsh-5.x-F15A24?style=for-the-badge&logo=zsh&logoColor=white)](https://www.zsh.org/)
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)](https://learn.microsoft.com/powershell/)
 [![Linux](https://img.shields.io/badge/Linux-ready-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://www.linux.org/)
+[![macOS](https://img.shields.io/badge/macOS-ready-000000?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/macos/)
 [![Windows](https://img.shields.io/badge/Windows-ready-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://www.microsoft.com/windows)
 [![Git](https://img.shields.io/badge/Git-requis-F05032?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/)
 [![Repo size](https://img.shields.io/github/repo-size/raharison-joshue-agape/ps-git-aliases?style=for-the-badge&logo=github&logoColor=white)]()
@@ -29,6 +31,7 @@ Suite d'aliases `g*` qui simplifient et accélèrent vos workflows Git directeme
 - [🏗️ Architecture](#️-architecture)
 - [⚡ Démarrage rapide](#-démarrage-rapide)
 - [🖥️ Linux / Bash](#️-linux--bash)
+- [🍎 macOS / Zsh](#-macos--zsh)
 - [🪟 Windows / PowerShell](#-windows--powershell)
 - [🔧 Référence des commandes](#-référence-des-commandes)
 - [📖 Aide intégrée](#-aide-intégrée)
@@ -44,15 +47,15 @@ Suite d'aliases `g*` qui simplifient et accélèrent vos workflows Git directeme
 
 | | |
 |---|---|
-| ⚡ **Aliases `g*`** | Des dizaines de raccourcis vers les commandes Git essentielles, identiques sur les deux plateformes |
+| ⚡ **Aliases `g*`** | Des dizaines de raccourcis vers les commandes Git essentielles, identiques sur les trois plateformes |
 | 🧩 **Architecture modulaire** | Modules thématiques (dépôt, branches, remotes, historique...) chargés depuis un point d'entrée unique |
 | 🐧 **Linux / Bash** | Scripts `.sh` compatibles bash 4.0+ et zsh |
+| 🍎 **macOS / Zsh** | Scripts `.sh` natifs zsh (et bash), shell par défaut de macOS depuis Catalina |
 | 🪟 **Windows / PowerShell** | Scripts `.ps1` compatibles Windows PowerShell 5.1+ et PowerShell 7 |
 | 🛡️ **Vérification de Git** | Disponibilité de git contrôlée avant chaque appel, avec arrêt propre si absent |
 | ✅ **Feedback clair** | Messages de succès (`✅`) et d'erreur (`❌`) pour chaque opération |
 | 📖 **Cheat sheet intégrée** | `gDocs` affiche la liste complète des commandes groupées par thème |
-| 🧠 **Aide contextuelle** | `gHelp [cmd]` sur les deux plateformes, `Get-Help` en plus côté PowerShell |
-| 🖼️ **Upload d'images sécurisé** | Extensions autorisées + limite de 5 Mo (Linux et Windows) |
+| 🧠 **Aide contextuelle** | `gHelp [cmd]` sur les trois plateformes, `Get-Help` en plus côté PowerShell |
 
 ---
 
@@ -61,6 +64,7 @@ Suite d'aliases `g*` qui simplifient et accélèrent vos workflows Git directeme
 | Domaine | Technologie |
 |---|---|
 | **Shell Linux** | [Bash](https://www.gnu.org/software/bash/) 4.0+ (ou [Zsh](https://www.zsh.org/)) |
+| **Shell macOS** | [Zsh](https://www.zsh.org/) 5.x (shell par défaut) ou Bash 4.0+ |
 | **Shell Windows** | [Windows PowerShell](https://learn.microsoft.com/powershell/) 5.1+ ou [PowerShell 7](https://learn.microsoft.com/powershell/) |
 | **VCS** | [Git](https://git-scm.com/) (toute version moderne) |
 | **Format** | Scripts shell / PowerShell — **aucune dépendance externe** |
@@ -98,7 +102,7 @@ L'implémentation suit une **architecture modulaire en couches**, chaque couche 
 - **`index.sh` / `index.ps1`** : source l'ensemble des modules situés dans son propre répertoire, quel que soit l'endroit où le projet a été copié.
 - **Modules thématiques** : chacun expose les fonctions publiques `g*` d'un domaine Git.
 - **Helpers** : portent la logique transversale (disponibilité de Git, exécution, feedback coloré).
-- Les deux implémentations (`linux/` et `windows/`) sont **fonctionnellement équivalentes** : mêmes commandes, mêmes options, mêmes comportements.
+- Les trois implémentations (`linux/`, `macos/` et `windows/`) sont **fonctionnellement équivalentes** : mêmes commandes, mêmes options, mêmes comportements.
 
 ---
 
@@ -108,6 +112,7 @@ L'implémentation suit une **architecture modulaire en couches**, chaque couche 
 
 - **Git** installé et accessible depuis le terminal — voir [git-scm.com](https://git-scm.com/downloads)
 - **Linux** : bash 4.0+ (ou zsh)
+- **macOS** : zsh 5.x (shell par défaut) ou bash 4.0+
 - **Windows** : Windows 10/11 avec Windows PowerShell 5.1+ ou PowerShell 7
 
 Puis suivez les étapes correspondant à votre plateforme ci-dessous.
@@ -143,6 +148,41 @@ Ajoutez cette ligne à la fin du fichier :
 ```bash
 source ~/.bashrc      # ou : source ~/.zshrc
 ```
+
+---
+
+## 🍎 macOS / Zsh
+
+### 1. Copier les fichiers dans votre répertoire de configuration
+
+```bash
+mkdir -p ~/.config/alias
+cp -r macos ~/.config/alias/git-commandes/
+```
+
+### 2. Ouvrir votre fichier de configuration shell
+
+```bash
+nano ~/.zshrc         # Zsh (shell par défaut)
+nano ~/.bash_profile  # Bash
+```
+
+### 3. Importer les aliases
+
+Ajoutez cette ligne à la fin du fichier :
+
+```bash
+. ~/.config/alias/git-commandes/macos/index.sh
+```
+
+### 4. Recharger votre configuration
+
+```bash
+source ~/.zshrc       # ou : source ~/.bash_profile
+```
+
+> 💡 Si Git est absent : `xcode-select --install` (Xcode Command Line Tools) ou `brew install git`.
+> ⚠️ Le Bash fourni par macOS (3.2) est trop ancien — utilisez Zsh ou installez un Bash moderne via Homebrew.
 
 ---
 
@@ -197,7 +237,7 @@ Les aliases se comportent comme des commandes natives et acceptent les mêmes ar
 ### Exemples rapides
 
 ```bash
-# Linux (Bash)
+# Linux (Bash) / macOS (Zsh)
 gStatus             # état du dépôt
 gAdd                # stager tous les changements
 gCommit "msg"       # créer un commit
@@ -348,22 +388,22 @@ Get-Help gCommit
 
 ## 🔌 Modules
 
-Chaque module regroupe les fonctions d'un même thème. Les deux plateformes sont strictement alignées :
+Chaque module regroupe les fonctions d'un même thème. Les trois plateformes sont strictement alignées :
 
-| Fichier (Linux / Windows) | Fonctions |
+| Fichier (Linux / macOS / Windows) | Fonctions |
 |---|---|
-| `helpers.sh` / `helpers.ps1` | `test_git`, `show_git_error`, `show_git_success`, `invoke_git` / `Test-Git`, `Show-GitError`, `Show-GitSuccess`, `Invoke-Git` |
-| `docs.sh` / `docs.ps1` | `gDocs` |
-| `config.sh` / `config.ps1` | `gHelp`, `gConfig` |
-| `repository.sh` / `repository.ps1` | `gInit`, `gClone`, `gStatus`, `gClean`, `gArchive` |
-| `staging.sh` / `staging.ps1` | `gAdd`, `gRemove`, `gMove`, `gCommit`, `gUntrack` |
-| `branch.sh` / `branch.ps1` | `gBranch`, `gCheck`, `gSwitch`, `gMerge`, `gRebase`, `gWorktree`, `gMergeAbort`, `gMergeContinue`, `gRebaseAbort`, `gRebaseContinue` |
-| `remote.sh` / `remote.ps1` | `gRemote`, `gPush`, `gPull`, `gFetch` |
-| `history.sh` / `history.ps1` | `gLog`, `gShow`, `gRestore`, `gReset`, `gRevert`, `gCherryPick`, `gReflog`, `gStash` |
-| `inspect.sh` / `inspect.ps1` | `gDiff`, `gBlame`, `gGrep`, `gShortLog`, `gDescribe` |
-| `tags.sh` / `tags.ps1` | `gTag`, `gPushTag` |
-| `submodule.sh` / `submodule.ps1` | `gSubmodule` |
-| `bisect.sh` / `bisect.ps1` | `gBisect` |
+| `helpers.sh` / `helpers.sh` / `helpers.ps1` | `test_git`, `show_git_error`, `show_git_success`, `invoke_git` / idem / `Test-Git`, `Show-GitError`, `Show-GitSuccess`, `Invoke-Git` |
+| `docs.sh` / `docs.sh` / `docs.ps1` | `gDocs` |
+| `config.sh` / `config.sh` / `config.ps1` | `gHelp`, `gConfig` |
+| `repository.sh` / `repository.sh` / `repository.ps1` | `gInit`, `gClone`, `gStatus`, `gClean`, `gArchive` |
+| `staging.sh` / `staging.sh` / `staging.ps1` | `gAdd`, `gRemove`, `gMove`, `gCommit`, `gUntrack` |
+| `branch.sh` / `branch.sh` / `branch.ps1` | `gBranch`, `gCheck`, `gSwitch`, `gMerge`, `gRebase`, `gWorktree`, `gMergeAbort`, `gMergeContinue`, `gRebaseAbort`, `gRebaseContinue` |
+| `remote.sh` / `remote.sh` / `remote.ps1` | `gRemote`, `gPush`, `gPull`, `gFetch` |
+| `history.sh` / `history.sh` / `history.ps1` | `gLog`, `gShow`, `gRestore`, `gReset`, `gRevert`, `gCherryPick`, `gReflog`, `gStash` |
+| `inspect.sh` / `inspect.sh` / `inspect.ps1` | `gDiff`, `gBlame`, `gGrep`, `gShortLog`, `gDescribe` |
+| `tags.sh` / `tags.sh` / `tags.ps1` | `gTag`, `gPushTag` |
+| `submodule.sh` / `submodule.sh` / `submodule.ps1` | `gSubmodule` |
+| `bisect.sh` / `bisect.sh` / `bisect.ps1` | `gBisect` |
 
 ---
 
@@ -386,6 +426,21 @@ git-commandes/
 │   ├── submodule.sh          # gSubmodule
 │   ├── bisect.sh             # gBisect
 │   └── README.md             # Guide d'installation Linux
+├── macos/                    # Implémentation Zsh pour macOS
+│   ├── index.sh              # Point d'entrée (charge tous les modules)
+│   ├── helpers.sh            # Utilitaires partagés (test, invoke, messages)
+│   ├── docs.sh               # Cheat sheet intégrée
+│   ├── config.sh             # gHelp, gConfig
+│   ├── repository.sh         # gInit, gClone, gStatus, gClean, gArchive
+│   ├── staging.sh            # gAdd, gRemove, gMove, gCommit, gUntrack
+│   ├── branch.sh             # gBranch, gCheck, gSwitch, gMerge, gRebase...
+│   ├── remote.sh             # gRemote, gPush, gPull, gFetch
+│   ├── history.sh            # gLog, gShow, gRestore, gReset, gStash...
+│   ├── inspect.sh            # gDiff, gBlame, gGrep, gShortLog, gDescribe
+│   ├── tags.sh               # gTag, gPushTag
+│   ├── submodule.sh          # gSubmodule
+│   ├── bisect.sh             # gBisect
+│   └── README.md             # Guide d'installation macOS
 ├── windows/                  # Implémentation PowerShell pour Windows
 │   ├── index.ps1             # Point d'entrée (charge tous les modules)
 │   ├── helpers.ps1           # Utilitaires partagés (Test-Git, Invoke-Git...)
@@ -417,6 +472,15 @@ git-commandes/
 rm -rf ~/.config/alias/git-commandes
 ```
 
+### macOS
+
+1. Supprimez la ligne d'import de `~/.zshrc` (ou `~/.bash_profile`).
+2. Supprimez le répertoire :
+
+```bash
+rm -rf ~/.config/alias/git-commandes
+```
+
 ### Windows
 
 1. Supprimez la ligne d'import de `$PROFILE`.
@@ -432,10 +496,11 @@ Remove-Item -Path "$HOME\.config\alias\git-commandes" -Recurse -Force
 
 | Symptôme | Solution |
 |---|---|
-| Les aliases ne fonctionnent pas | Vérifiez le chemin dans la ligne d'import, puis rechargez : `source ~/.bashrc` (Linux) ou `. $PROFILE` (Windows) |
-| `❌ Git is not installed` | Installez Git (`sudo apt install git` sous Debian/Ubuntu, Git for Windows sous Windows) et redémarrez votre terminal |
-| `command not found: gStatus` | Les fonctions ne sont pas chargées : confirmez la présence de `. ~/.config/alias/git-commandes/linux/index.sh` dans `~/.bashrc` |
-| `Module not found: ...` (jaune) | Un fichier de module est absent — réinstallez le dossier `linux/` ou `windows/` en entier |
+| Les aliases ne fonctionnent pas | Vérifiez le chemin dans la ligne d'import, puis rechargez : `source ~/.bashrc` (Linux), `source ~/.zshrc` (macOS) ou `. $PROFILE` (Windows) |
+| `❌ Git is not installed` | Installez Git (`sudo apt install git` sous Debian/Ubuntu, `xcode-select --install` ou `brew install git` sous macOS, Git for Windows sous Windows) et redémarrez votre terminal |
+| `command not found: gStatus` | Les fonctions ne sont pas chargées : confirmez la présence de la ligne d'import correspondant à votre plateforme dans votre fichier de configuration |
+| `Module not found: ...` (jaune) | Un fichier de module est absent — réinstallez le dossier `linux/`, `macos/` ou `windows/` en entier |
+| Erreurs de syntaxe sur macOS | Le Bash 3.2 fourni par macOS est obsolète — utilisez Zsh, ou installez un Bash moderne via Homebrew |
 | `Get-Help` ne retourne rien | Rechargez le profil (`. $PROFILE`) pour que les fonctions soient définies |
 
 ---
