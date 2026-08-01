@@ -1,60 +1,60 @@
 # Git Command Aliases - Windows
 
-Kit de raccourcis Git (`g*`) pour PowerShell sous Windows.
+A collection of Git shortcuts (`g*`) for PowerShell on Windows.
 
-## Prérequis
+## Prerequisites
 
-- Windows 10 ou 11
-- PowerShell 5.1 ou plus (Windows PowerShell ou PowerShell 7)
-- [Git for Windows](https://git-scm.com/download/win) installé et ajouté au PATH
+- Windows 10 or 11
+- PowerShell 5.1 or later (Windows PowerShell or PowerShell 7)
+- [Git for Windows](https://git-scm.com/download/win) installed and added to PATH
 
 ## Installation
 
-### 1. Copier les fichiers
+### 1. Copy the files
 
-Placez le dossier `windows` dans votre répertoire de configuration :
+Place the `windows` folder in your configuration directory:
 
 ```powershell
 New-Item -ItemType Directory -Path "$HOME\.config\alias" -Force
 Copy-Item -Path "windows" -Destination "$HOME\.config\alias\git-commandes\" -Recurse
 ```
 
-### 2. Vérifier le profil PowerShell
+### 2. Check your PowerShell profile
 
 ```powershell
 Test-Path $PROFILE
 ```
 
-- `True` → le profil existe, passez à l'étape 4.
-- `False` → créez-le :
+- `True` → your profile exists, go to step 4.
+- `False` → create it:
 
 ```powershell
 New-Item -Path $PROFILE -ItemType File -Force
 ```
 
-### 3. Ouvrir le profil
+### 3. Open your profile
 
 ```powershell
 notepad $PROFILE
 ```
 
-ou avec VS Code :
+or with VS Code:
 
 ```powershell
 code $PROFILE
 ```
 
-### 4. Importer les aliases
+### 4. Import the aliases
 
-Ajoutez cette ligne à votre profil :
+Add this line to your profile:
 
 ```powershell
 . "$HOME\.config\alias\git-commandes\windows\index.ps1"
 ```
 
-`index.ps1` charge automatiquement tous les modules. Chaque module regroupe les fonctions par thème :
+`index.ps1` automatically loads all modules. Each module groups functions by theme:
 
-| Fichier | Fonctions |
+| File | Functions |
 | --- | --- |
 | `helpers.ps1` | `Test-Git`, `Show-GitError`, `Show-GitSuccess`, `Invoke-Git` |
 | `docs.ps1` | `gDocs` |
@@ -69,44 +69,44 @@ Ajoutez cette ligne à votre profil :
 | `submodule.ps1` | `gSubmodule` |
 | `bisect.ps1` | `gBisect` |
 
-### 5. Recharger le profil
+### 5. Reload your profile
 
 ```powershell
 . $PROFILE
 ```
 
-## Utilisation
+## Usage
 
-Les raccourcis s'utilisent directement dans le terminal :
-
-```powershell
-gStatus        # état du dépôt
-gAdd -a        # stage tous les fichiers
-gCommit "msg"  # création d'un commit
-gPush          # push de la branche courante
-gDiff -cached  # diff des changements stagés
-```
-
-## Aide intégrée
+The shortcuts are used directly in the terminal:
 
 ```powershell
-gDocs                 # cheat sheet dans le terminal
-Get-Help gCommit      # documentation d'une fonction
+gStatus        # repository status
+gAdd -a        # stage all files
+gCommit "msg"  # create a commit
+gPush          # push the current branch
+gDiff -cached  # diff of staged changes
 ```
 
-Chaque fonction dispose d'une aide commentée (`Get-Help`) décrivant ses paramètres et des exemples.
+## Built-in help
 
-## Désinstallation
+```powershell
+gDocs                 # in-terminal cheat sheet
+Get-Help gCommit      # documentation of a function
+```
 
-- Retirez la ligne d'import de votre profil : `$PROFILE`
-- Supprimez le répertoire :
+Every function has comment-based help (`Get-Help`) describing its parameters and providing examples.
+
+## Uninstall
+
+- Remove the import line from your profile: `$PROFILE`
+- Delete the directory:
 
 ```powershell
 Remove-Item -Path "$HOME\.config\alias\git-commandes" -Recurse -Force
 ```
 
-## Dépannage
+## Troubleshooting
 
-- Les aliases ne fonctionnent pas → vérifiez le chemin dans la ligne d'import et recharger le profil.
-- `❌ Git is not installed` → installez Git for Windows et redémarrez PowerShell.
-- Profil introuvable → vérifiez que `$PROFILE` existe (`Test-Path $PROFILE`).
+- Aliases don't work → check the path in the import line and reload your profile.
+- `❌ Git is not installed` → install Git for Windows and restart PowerShell.
+- Profile not found → check that `$PROFILE` exists (`Test-Path $PROFILE`).
