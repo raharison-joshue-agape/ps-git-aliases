@@ -1,6 +1,6 @@
 # =============================================================================
 #  Inspect - Diff, blame, grep, shortlog and describe.
-#  Written for Zsh (default shell on macOS) and Bash-compatible.
+#  Written for Zsh (default shell on macOS).
 # =============================================================================
 
 # -----------------------------------------------------------------------------

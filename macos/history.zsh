@@ -1,6 +1,6 @@
 # =============================================================================
 #  History - Log, show, restore, reset, revert, cherry-pick, reflog and stash.
-#  Written for Zsh (default shell on macOS) and Bash-compatible.
+#  Written for Zsh (default shell on macOS).
 # =============================================================================
 
 # -----------------------------------------------------------------------------

@@ -50,7 +50,7 @@ Suite d'aliases `g*` qui simplifient et accélèrent vos workflows Git directeme
 | ⚡ **Aliases `g*`** | Des dizaines de raccourcis vers les commandes Git essentielles, identiques sur les trois plateformes |
 | 🧩 **Architecture modulaire** | Modules thématiques (dépôt, branches, remotes, historique...) chargés depuis un point d'entrée unique |
 | 🐧 **Linux / Bash** | Scripts `.sh` compatibles bash 4.0+ et zsh |
-| 🍎 **macOS / Zsh** | Scripts `.sh` natifs zsh (et bash), shell par défaut de macOS depuis Catalina |
+| 🍎 **macOS / Zsh** | Scripts `.zsh` natifs zsh, shell par défaut de macOS depuis Catalina |
 | 🪟 **Windows / PowerShell** | Scripts `.ps1` compatibles Windows PowerShell 5.1+ et PowerShell 7 |
 | 🛡️ **Vérification de Git** | Disponibilité de git contrôlée avant chaque appel, avec arrêt propre si absent |
 | ✅ **Feedback clair** | Messages de succès (`✅`) et d'erreur (`❌`) pour chaque opération |
@@ -64,12 +64,12 @@ Suite d'aliases `g*` qui simplifient et accélèrent vos workflows Git directeme
 | Domaine | Technologie |
 |---|---|
 | **Shell Linux** | [Bash](https://www.gnu.org/software/bash/) 4.0+ (ou [Zsh](https://www.zsh.org/)) |
-| **Shell macOS** | [Zsh](https://www.zsh.org/) 5.x (shell par défaut) ou Bash 4.0+ |
+| **Shell macOS** | [Zsh](https://www.zsh.org/) 5.x (shell par défaut) |
 | **Shell Windows** | [Windows PowerShell](https://learn.microsoft.com/powershell/) 5.1+ ou [PowerShell 7](https://learn.microsoft.com/powershell/) |
 | **VCS** | [Git](https://git-scm.com/) (toute version moderne) |
 | **Format** | Scripts shell / PowerShell — **aucune dépendance externe** |
-| **Point d'entrée** | `index.sh` / `index.ps1` (chargement automatique des modules) |
-| **Couche utilitaire** | `helpers.sh` / `helpers.ps1` (vérification, exécution, messages) |
+| **Point d'entrée** | `index.sh` / `index.zsh` / `index.ps1` (chargement automatique des modules) |
+| **Couche utilitaire** | `helpers.sh` / `helpers.zsh` / `helpers.ps1` (vérification, exécution, messages) |
 | **Documentation** | Cheat sheet intégrée (`gDocs`) + aide Git (`gHelp`) |
 
 ---
@@ -83,7 +83,8 @@ L'implémentation suit une **architecture modulaire en couches**, chaque couche 
       │      (~/.bashrc | ~/.zshrc | $PROFILE)
       ▼
 ┌────────────────────────────┐
-│    index.sh / index.ps1    │  Point d'entrée — charge tous les modules
+│    index.sh/index.zsh/     │  Point d'entrée — charge tous les modules
+│       index.ps1            │
 └────────────┬───────────────┘
              ▼
 ┌────────────────────────────┐
@@ -92,14 +93,14 @@ L'implémentation suit une **architecture modulaire en couches**, chaque couche 
 └────────────┬───────────────┘
              ▼
 ┌────────────────────────────┐
-│    helpers.sh / helpers.ps1│  test_git, invoke_git / Test-Git, Invoke-Git,
-│                            │  messages de succès et d'erreur
+│  helpers.sh/helpers.zsh/   │  test_git, invoke_git / Test-Git, Invoke-Git,
+│    helpers.ps1             │  messages de succès et d'erreur
 └────────────┬───────────────┘
              ▼
              Git
 ```
 
-- **`index.sh` / `index.ps1`** : source l'ensemble des modules situés dans son propre répertoire, quel que soit l'endroit où le projet a été copié.
+- **`index.sh` / `index.zsh` / `index.ps1`** : source l'ensemble des modules situés dans son propre répertoire, quel que soit l'endroit où le projet a été copié.
 - **Modules thématiques** : chacun expose les fonctions publiques `g*` d'un domaine Git.
 - **Helpers** : portent la logique transversale (disponibilité de Git, exécution, feedback coloré).
 - Les trois implémentations (`linux/`, `macos/` et `windows/`) sont **fonctionnellement équivalentes** : mêmes commandes, mêmes options, mêmes comportements.
@@ -112,7 +113,7 @@ L'implémentation suit une **architecture modulaire en couches**, chaque couche 
 
 - **Git** installé et accessible depuis le terminal — voir [git-scm.com](https://git-scm.com/downloads)
 - **Linux** : bash 4.0+ (ou zsh)
-- **macOS** : zsh 5.x (shell par défaut) ou bash 4.0+
+- **macOS** : zsh 5.x (shell par défaut)
 - **Windows** : Windows 10/11 avec Windows PowerShell 5.1+ ou PowerShell 7
 
 Puis suivez les étapes correspondant à votre plateforme ci-dessous.
@@ -163,8 +164,7 @@ cp -r macos ~/.config/alias/git-commandes/
 ### 2. Ouvrir votre fichier de configuration shell
 
 ```bash
-nano ~/.zshrc         # Zsh (shell par défaut)
-nano ~/.bash_profile  # Bash
+nano ~/.zshrc
 ```
 
 ### 3. Importer les aliases
@@ -172,17 +172,17 @@ nano ~/.bash_profile  # Bash
 Ajoutez cette ligne à la fin du fichier :
 
 ```bash
-. ~/.config/alias/git-commandes/macos/index.sh
+. ~/.config/alias/git-commandes/macos/index.zsh
 ```
 
 ### 4. Recharger votre configuration
 
 ```bash
-source ~/.zshrc       # ou : source ~/.bash_profile
+source ~/.zshrc
 ```
 
 > 💡 Si Git est absent : `xcode-select --install` (Xcode Command Line Tools) ou `brew install git`.
-> ⚠️ Le Bash fourni par macOS (3.2) est trop ancien — utilisez Zsh ou installez un Bash moderne via Homebrew.
+> ℹ️ Les scripts macOS sont écrits en Zsh et ne sont pas compatibles Bash.
 
 ---
 
@@ -392,18 +392,18 @@ Chaque module regroupe les fonctions d'un même thème. Les trois plateformes so
 
 | Fichier (Linux / macOS / Windows) | Fonctions |
 |---|---|
-| `helpers.sh` / `helpers.sh` / `helpers.ps1` | `test_git`, `show_git_error`, `show_git_success`, `invoke_git` / idem / `Test-Git`, `Show-GitError`, `Show-GitSuccess`, `Invoke-Git` |
-| `docs.sh` / `docs.sh` / `docs.ps1` | `gDocs` |
-| `config.sh` / `config.sh` / `config.ps1` | `gHelp`, `gConfig` |
-| `repository.sh` / `repository.sh` / `repository.ps1` | `gInit`, `gClone`, `gStatus`, `gClean`, `gArchive` |
-| `staging.sh` / `staging.sh` / `staging.ps1` | `gAdd`, `gRemove`, `gMove`, `gCommit`, `gUntrack` |
-| `branch.sh` / `branch.sh` / `branch.ps1` | `gBranch`, `gCheck`, `gSwitch`, `gMerge`, `gRebase`, `gWorktree`, `gMergeAbort`, `gMergeContinue`, `gRebaseAbort`, `gRebaseContinue` |
-| `remote.sh` / `remote.sh` / `remote.ps1` | `gRemote`, `gPush`, `gPull`, `gFetch` |
-| `history.sh` / `history.sh` / `history.ps1` | `gLog`, `gShow`, `gRestore`, `gReset`, `gRevert`, `gCherryPick`, `gReflog`, `gStash` |
-| `inspect.sh` / `inspect.sh` / `inspect.ps1` | `gDiff`, `gBlame`, `gGrep`, `gShortLog`, `gDescribe` |
-| `tags.sh` / `tags.sh` / `tags.ps1` | `gTag`, `gPushTag` |
-| `submodule.sh` / `submodule.sh` / `submodule.ps1` | `gSubmodule` |
-| `bisect.sh` / `bisect.sh` / `bisect.ps1` | `gBisect` |
+| `helpers.sh` / `helpers.zsh` / `helpers.ps1` | `test_git`, `show_git_error`, `show_git_success`, `invoke_git` / idem / `Test-Git`, `Show-GitError`, `Show-GitSuccess`, `Invoke-Git` |
+| `docs.sh` / `docs.zsh` / `docs.ps1` | `gDocs` |
+| `config.sh` / `config.zsh` / `config.ps1` | `gHelp`, `gConfig` |
+| `repository.sh` / `repository.zsh` / `repository.ps1` | `gInit`, `gClone`, `gStatus`, `gClean`, `gArchive` |
+| `staging.sh` / `staging.zsh` / `staging.ps1` | `gAdd`, `gRemove`, `gMove`, `gCommit`, `gUntrack` |
+| `branch.sh` / `branch.zsh` / `branch.ps1` | `gBranch`, `gCheck`, `gSwitch`, `gMerge`, `gRebase`, `gWorktree`, `gMergeAbort`, `gMergeContinue`, `gRebaseAbort`, `gRebaseContinue` |
+| `remote.sh` / `remote.zsh` / `remote.ps1` | `gRemote`, `gPush`, `gPull`, `gFetch` |
+| `history.sh` / `history.zsh` / `history.ps1` | `gLog`, `gShow`, `gRestore`, `gReset`, `gRevert`, `gCherryPick`, `gReflog`, `gStash` |
+| `inspect.sh` / `inspect.zsh` / `inspect.ps1` | `gDiff`, `gBlame`, `gGrep`, `gShortLog`, `gDescribe` |
+| `tags.sh` / `tags.zsh` / `tags.ps1` | `gTag`, `gPushTag` |
+| `submodule.sh` / `submodule.zsh` / `submodule.ps1` | `gSubmodule` |
+| `bisect.sh` / `bisect.zsh` / `bisect.ps1` | `gBisect` |
 
 ---
 
@@ -427,19 +427,19 @@ git-commandes/
 │   ├── bisect.sh             # gBisect
 │   └── README.md             # Guide d'installation Linux
 ├── macos/                    # Implémentation Zsh pour macOS
-│   ├── index.sh              # Point d'entrée (charge tous les modules)
-│   ├── helpers.sh            # Utilitaires partagés (test, invoke, messages)
-│   ├── docs.sh               # Cheat sheet intégrée
-│   ├── config.sh             # gHelp, gConfig
-│   ├── repository.sh         # gInit, gClone, gStatus, gClean, gArchive
-│   ├── staging.sh            # gAdd, gRemove, gMove, gCommit, gUntrack
-│   ├── branch.sh             # gBranch, gCheck, gSwitch, gMerge, gRebase...
-│   ├── remote.sh             # gRemote, gPush, gPull, gFetch
-│   ├── history.sh            # gLog, gShow, gRestore, gReset, gStash...
-│   ├── inspect.sh            # gDiff, gBlame, gGrep, gShortLog, gDescribe
-│   ├── tags.sh               # gTag, gPushTag
-│   ├── submodule.sh          # gSubmodule
-│   ├── bisect.sh             # gBisect
+│   ├── index.zsh             # Point d'entrée (charge tous les modules)
+│   ├── helpers.zsh           # Utilitaires partagés (test, invoke, messages)
+│   ├── docs.zsh              # Cheat sheet intégrée
+│   ├── config.zsh            # gHelp, gConfig
+│   ├── repository.zsh        # gInit, gClone, gStatus, gClean, gArchive
+│   ├── staging.zsh           # gAdd, gRemove, gMove, gCommit, gUntrack
+│   ├── branch.zsh            # gBranch, gCheck, gSwitch, gMerge, gRebase...
+│   ├── remote.zsh            # gRemote, gPush, gPull, gFetch
+│   ├── history.zsh           # gLog, gShow, gRestore, gReset, gStash...
+│   ├── inspect.zsh           # gDiff, gBlame, gGrep, gShortLog, gDescribe
+│   ├── tags.zsh              # gTag, gPushTag
+│   ├── submodule.zsh         # gSubmodule
+│   ├── bisect.zsh            # gBisect
 │   └── README.md             # Guide d'installation macOS
 ├── windows/                  # Implémentation PowerShell pour Windows
 │   ├── index.ps1             # Point d'entrée (charge tous les modules)
@@ -474,7 +474,7 @@ rm -rf ~/.config/alias/git-commandes
 
 ### macOS
 
-1. Supprimez la ligne d'import de `~/.zshrc` (ou `~/.bash_profile`).
+1. Supprimez la ligne d'import de `~/.zshrc`.
 2. Supprimez le répertoire :
 
 ```bash
@@ -500,7 +500,7 @@ Remove-Item -Path "$HOME\.config\alias\git-commandes" -Recurse -Force
 | `❌ Git is not installed` | Installez Git (`sudo apt install git` sous Debian/Ubuntu, `xcode-select --install` ou `brew install git` sous macOS, Git for Windows sous Windows) et redémarrez votre terminal |
 | `command not found: gStatus` | Les fonctions ne sont pas chargées : confirmez la présence de la ligne d'import correspondant à votre plateforme dans votre fichier de configuration |
 | `Module not found: ...` (jaune) | Un fichier de module est absent — réinstallez le dossier `linux/`, `macos/` ou `windows/` en entier |
-| Erreurs de syntaxe sur macOS | Le Bash 3.2 fourni par macOS est obsolète — utilisez Zsh, ou installez un Bash moderne via Homebrew |
+| Erreurs de syntaxe sur macOS | Les scripts macOS sont écrits en Zsh uniquement — chargez-les depuis `~/.zshrc`, pas depuis `~/.bash_profile` |
 | `Get-Help` ne retourne rien | Rechargez le profil (`. $PROFILE`) pour que les fonctions soient définies |
 
 ---

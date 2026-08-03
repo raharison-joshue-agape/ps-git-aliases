@@ -1,6 +1,6 @@
 # =============================================================================
 #  Staging - Working directory and commit operations.
-#  Written for Zsh (default shell on macOS) and Bash-compatible.
+#  Written for Zsh (default shell on macOS).
 # =============================================================================
 
 # -----------------------------------------------------------------------------

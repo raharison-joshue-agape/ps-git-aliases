@@ -1,6 +1,6 @@
 # =============================================================================
 #  Helpers - Shared utilities used by every Git alias function.
-#  Written for Zsh (default shell on macOS) and Bash-compatible.
+#  Written for Zsh (default shell on macOS).
 # =============================================================================
 
 # -----------------------------------------------------------------------------

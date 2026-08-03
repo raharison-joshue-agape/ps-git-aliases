@@ -1,6 +1,6 @@
 # =============================================================================
 #  Remote - Remote management, push, pull and fetch.
-#  Written for Zsh (default shell on macOS) and Bash-compatible.
+#  Written for Zsh (default shell on macOS).
 # =============================================================================
 
 # -----------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 # =============================================================================
 #  Bisect - Bug hunting with a binary search over the commit history.
-#  Written for Zsh (default shell on macOS) and Bash-compatible.
+#  Written for Zsh (default shell on macOS).
 # =============================================================================
 
 # -----------------------------------------------------------------------------

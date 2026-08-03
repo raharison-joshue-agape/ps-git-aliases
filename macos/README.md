@@ -19,7 +19,7 @@ The aliases are organized into themed modules that load automatically from a sin
 
 | Requirement | Details |
 | --- | --- |
-| Shell | Zsh 5.x (the default shell on macOS since Catalina) or Bash |
+| Shell | Zsh 5.x (the default shell on macOS since Catalina) |
 | Git | Installed via [Xcode Command Line Tools](https://developer.apple.com/xcode/resources/) or [Homebrew](https://brew.sh/) |
 
 Install Git if it is missing:
@@ -32,7 +32,7 @@ xcode-select --install
 brew install git
 ```
 
-> **Note for Bash users:** the scripts are fully Bash-compatible. macOS ships Bash 3.2 for licensing reasons, which is too old for these scripts — install a current Bash via Homebrew (`brew install bash`) and use `/opt/homebrew/bin/bash` in your shell configuration.
+> **Note:** the scripts are written for Zsh and are not Bash-compatible.
 
 ## Installation
 
@@ -46,8 +46,7 @@ cp -r macos ~/.config/alias/git-commandes/
 ### 2. Open your shell configuration
 
 ```bash
-nano ~/.zshrc        # Zsh (default)
-nano ~/.bash_profile # Bash
+nano ~/.zshrc
 ```
 
 ### 3. Import the aliases
@@ -55,15 +54,15 @@ nano ~/.bash_profile # Bash
 Append the following line to the end of the file:
 
 ```bash
-. ~/.config/alias/git-commandes/macos/index.sh
+. ~/.config/alias/git-commandes/macos/index.zsh
 ```
 
-`index.sh` is the entry point. It sources every module located in its own directory, so the shortcuts work no matter where the project has been copied to.
+`index.zsh` is the entry point. It sources every module located in its own directory, so the shortcuts work no matter where the project has been copied to.
 
 ### 4. Reload your shell
 
 ```bash
-source ~/.zshrc      # or: source ~/.bash_profile
+source ~/.zshrc
 ```
 
 ## Module reference
@@ -72,18 +71,18 @@ Each module groups functions by topic:
 
 | File | Functions |
 | --- | --- |
-| `helpers.sh` | `test_git`, `show_git_error`, `show_git_success`, `invoke_git` |
-| `docs.sh` | `gDocs` |
-| `config.sh` | `gHelp`, `gConfig` |
-| `repository.sh` | `gInit`, `gClone`, `gStatus`, `gClean`, `gArchive` |
-| `staging.sh` | `gAdd`, `gRemove`, `gMove`, `gCommit`, `gUntrack` |
-| `branch.sh` | `gBranch`, `gCheck`, `gSwitch`, `gMerge`, `gRebase`, `gWorktree`, `gMergeAbort`, `gMergeContinue`, `gRebaseAbort`, `gRebaseContinue` |
-| `remote.sh` | `gRemote`, `gPush`, `gPull`, `gFetch` |
-| `history.sh` | `gLog`, `gShow`, `gRestore`, `gReset`, `gRevert`, `gCherryPick`, `gReflog`, `gStash` |
-| `inspect.sh` | `gDiff`, `gBlame`, `gGrep`, `gShortLog`, `gDescribe` |
-| `tags.sh` | `gTag`, `gPushTag` |
-| `submodule.sh` | `gSubmodule` |
-| `bisect.sh` | `gBisect` |
+| `helpers.zsh` | `test_git`, `show_git_error`, `show_git_success`, `invoke_git` |
+| `docs.zsh` | `gDocs` |
+| `config.zsh` | `gHelp`, `gConfig` |
+| `repository.zsh` | `gInit`, `gClone`, `gStatus`, `gClean`, `gArchive` |
+| `staging.zsh` | `gAdd`, `gRemove`, `gMove`, `gCommit`, `gUntrack` |
+| `branch.zsh` | `gBranch`, `gCheck`, `gSwitch`, `gMerge`, `gRebase`, `gWorktree`, `gMergeAbort`, `gMergeContinue`, `gRebaseAbort`, `gRebaseContinue` |
+| `remote.zsh` | `gRemote`, `gPush`, `gPull`, `gFetch` |
+| `history.zsh` | `gLog`, `gShow`, `gRestore`, `gReset`, `gRevert`, `gCherryPick`, `gReflog`, `gStash` |
+| `inspect.zsh` | `gDiff`, `gBlame`, `gGrep`, `gShortLog`, `gDescribe` |
+| `tags.zsh` | `gTag`, `gPushTag` |
+| `submodule.zsh` | `gSubmodule` |
+| `bisect.zsh` | `gBisect` |
 
 ## Usage
 
@@ -112,7 +111,7 @@ gHelp commit
 
 ## Uninstall
 
-1. Remove the import line from `~/.zshrc` (or `~/.bash_profile`).
+1. Remove the import line from `~/.zshrc`.
 2. Delete the directory:
 
 ```bash
@@ -125,8 +124,8 @@ rm -rf ~/.config/alias/git-commandes
 | --- | --- |
 | Aliases are unavailable | Verify the import path is correct, then reload with `source ~/.zshrc`. |
 | `❌ Git is not installed` | Run `xcode-select --install` (or `brew install git`) and restart your shell. |
-| `command not found: gStatus` | The functions were not loaded. Confirm that `. ~/.config/alias/git-commandes/macos/index.sh` appears in `~/.zshrc` and that the file exists at that path. |
-| `bad option` or parse errors | macOS ships an outdated Bash 3.2 — use Zsh, or install a modern Bash via Homebrew. |
+| `command not found: gStatus` | The functions were not loaded. Confirm that `. ~/.config/alias/git-commandes/macos/index.zsh` appears in `~/.zshrc` and that the file exists at that path. |
+| Parse errors when sourcing | The scripts are Zsh-only — make sure they are loaded from `~/.zshrc`, not `~/.bash_profile`. |
 
 ## Contributing
 

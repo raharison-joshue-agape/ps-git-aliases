@@ -1,6 +1,6 @@
 # =============================================================================
 #  Branch - Branch management, switching, merging and rebasing.
-#  Written for Zsh (default shell on macOS) and Bash-compatible.
+#  Written for Zsh (default shell on macOS).
 # =============================================================================
 
 # -----------------------------------------------------------------------------
